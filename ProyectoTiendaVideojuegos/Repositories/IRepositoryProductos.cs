@@ -1,0 +1,16 @@
+﻿using ProyectoTiendaVideojuegos.Models;
+
+namespace ProyectoTiendaVideojuegos.Repositories
+{
+    public interface IRepositoryProductos
+    {
+        List<Producto> GetProductosPS4();
+        List<Categoria>GetCategorias();
+        List<SubCategoria> GetSubCategorias();
+        List<Producto> GetPorductosGrid(int id);
+        List<Producto> GetTodosProductos();
+        List<Producto> GetBuscadorProductos(string buscar);
+
+        List<Producto> FiltrarPorPlataforma(List<string> plataformas);
+    }
+}
