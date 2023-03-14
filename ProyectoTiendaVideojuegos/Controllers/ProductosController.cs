@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProyectoTiendaVideojuegos.Models;
 using ProyectoTiendaVideojuegos.Repositories;
-
 namespace ProyectoTiendaVideojuegos.Controllers
 {
     public class ProductosController : Controller
@@ -33,12 +32,13 @@ namespace ProyectoTiendaVideojuegos.Controllers
 
         }
 
-        public IActionResult VistasGridTodosProductos(string buscar, List<string> plataforma)
+        public IActionResult VistasGridTodosProductos(string buscar, List<string> plataforma,
+            List<string> generos, List<int> preciomenor, List<int> preciomayor)
         {
             CategoriasViewModel enlace = new CategoriasViewModel();
             enlace.Categorias = this.repo.GetCategorias();
             enlace.Subcategorias = this.repo.GetSubCategorias();
-
+            enlace.Productos = this.repo.FiltrarPorPrecio(preciomenor, preciomayor);
             if (!string.IsNullOrEmpty(buscar))
             {
                 enlace.Productos = this.repo.GetBuscadorProductos(buscar);
@@ -46,6 +46,9 @@ namespace ProyectoTiendaVideojuegos.Controllers
             else if (plataforma != null && plataforma.Any())
             {
                 enlace.Productos = this.repo.FiltrarPorPlataforma(plataforma);
+            }else if (generos!=null && generos.Any())
+            {
+                enlace.Productos = this.repo.FiltrarPorGenero(generos);
             }
             else
             {
