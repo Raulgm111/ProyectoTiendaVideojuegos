@@ -93,13 +93,12 @@ namespace ProyectoTiendaVideojuegos.Repositories
             return consulta.ToList();
         }
 
-        public List<Producto> FiltrarPorPrecio(List<int> preciomenor, List<int> preciomayor)
+        public List<Producto> FiltrarPorPrecio(int? precioMinimo, int? precioMaximo)
         {
-            var consulta = from productos in context.Productos
-                           where productos.Precio >= preciomenor.Min() && productos.Precio <= preciomayor.Max()
+                        var consulta = from productos in context.Productos
+                           where productos.Precio >= precioMinimo && productos.Precio <= precioMaximo
                            select productos;
-            return consulta.Any() ? consulta.ToList() : new List<Producto>();
+            return consulta.ToList();
         }
-
     }
 }

@@ -1,9 +1,7 @@
 ﻿@model CategoriasViewModel
-@{
-    int preciomenor = 0;
-    int preciomayor = 50;
-}
+
 <nav class="category-section header sticky top-0 bg-white shadow-md flex items-center justify-between px-8 py-02" style="z-index: 2;">
+
     <div class="container flex flex-wrap items-center justify-between mx-auto">
         <a asp-controller="Productos"
            asp-action="MisVistas"
@@ -143,7 +141,7 @@
                             {
                         <li>
                             <div class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                <input value="@item.Genero" name="generos" id="aventura-checkbox" type="checkbox" value="" class="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <input value="@item.Genero" name="generos" id="aventura-checkbox" type="checkbox" class="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="aventura-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">@item.Genero</label>
                             </div>
                         </li>
@@ -172,19 +170,17 @@
                                   clip-rule="evenodd"></path>
                         </svg>
                     </button>
+
                     <ul id="dropdown-example4" class="hidden py-2 space-y-2">
                         <li>
-                            <div class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                <input id="0-50-checkbox" value="preciomenor(0)" type="checkbox" value="" class="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="0-50-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">0</label>
-                                <div id="slider" class="w-full h-8 bg-gray-200 rounded-full"></div>
-
-                                <label for="preciomenor" class="block font-medium text-gray-700">Precio mínimo:</label>
-                                <input type="text" id="preciomenor" name="preciomenor" readonly class="block w-full mt-1 bg-white border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-
-                                <label for="preciomayor" class="block font-medium text-gray-700">Precio máximo:</label>
-                                <input type="text" id="preciomayor" name="preciomayor" readonly class="block w-full mt-1 bg-white border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            </div>
+                            <form method="get" asp-action="VistasGridTodosProductos">
+                                    <label for="precioMinimo" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">MINIMO</label>
+                                    <input  id="precioMinimo" name="precioMinimo" type="text" style="width:100px" />
+                                    <label for="precioMaximo" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">MAXIMO</label>
+                                    <input  id="precioMaximo" name="precioMaximo" type="text" style="width:100px" />
+                                    <br />
+                                    <button type="submit" class="px-3 py-1 font-semibold rounded bn1-hover bn2">Filtrar</button>
+                            </form>
                         </li>
                         <li>
                             <div class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
@@ -210,7 +206,6 @@
         </div>
     </aside>
     <!-- card -->
-
     <div id="resultados" class="bodyCartas">
         <div class="containerCartas">
             @foreach (var item in Model.Productos)
@@ -229,34 +224,19 @@
             }
         </div>
     </div>
-    <script>
-        function buscarProductos() {
-            var buscar = document.getElementById("buscar").value;
-            $.ajax({
-                url: '@Url.Action("BuscarProductos", "Productos")',
-                type: 'GET',
-                data: { buscar: buscar },
-                success: function (data) {
-                    $("#resultados").html(data);
+        <script>
+                function buscarProductos() {
+                    var buscar = document.getElementById("buscar").value;
+                    $.ajax({
+                        url: '@Url.Action("BuscarProductos", "Productos")',
+                        type: 'GET',
+                        data: { buscar: buscar },
+                        success: function (data) {
+                            $("#resultados").html(data);
+                        }
+                    });
                 }
-            });
-        }
-        $(function () {
-            $("#slider").slider({
-                range: true,
-                min: 0,
-                max: 100,
-                values: [25, 75],
-                slide: function (event, ui) {
-                    $("#preciomenor").val(ui.values[0]);
-                    $("#preciomayor").val(ui.values[1]);
-                }
-            });
-            $("#preciomenor").val($("#slider").slider("values", 0));
-            $("#preciomayor").val($("#slider").slider("values", 1));
-        });
-
-    </script>
+        </script>
 </body>
 
 

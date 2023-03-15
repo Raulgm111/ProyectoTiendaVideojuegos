@@ -13,6 +13,6 @@ namespace ProyectoTiendaVideojuegos.Repositories
         List<Producto> GetBuscadorProductos(string buscar);
         List<Producto> FiltrarPorPlataforma(List<string> plataformas);
         List<Producto> FiltrarPorGenero(List<string> generos);
-        List<Producto> FiltrarPorPrecio(List<int> preciomenor, List<int> preciomayor);
+        List<Producto> FiltrarPorPrecio(int? precioMinimo, int? precioMaximo);
     }
 }
