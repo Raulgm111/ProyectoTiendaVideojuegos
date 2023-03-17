@@ -51,15 +51,15 @@
     </div>
 </nav>
 
-<form class="flex items-center" asp-controller="Productos" asp-action="VistasGridTodosProductos">
+<form class="flex items-center" asp-controller="Productos" asp-action="VistasGrid">
     <label for="simple-search" class="sr-only">Search</label>
     <div class="relative w-full">
         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
         </div>
-        <input type="text" name="Buscar" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar" required>
+        <input type="text" name="buscar" id="buscar" onkeyup="buscarProductos()" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar" required>
     </div>
-    <button type="submit" value="Buscar" class="p-2.5 ml-2 text-sm font-medium text-white bg-purple-700 rounded-lg border border-purple-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+    <button type="submit" value="buscar" id="buscar" class="p-2.5 ml-2 text-sm font-medium text-white bg-purple-700 rounded-lg border border-purple-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
         <span class="sr-only">Search</span>
     </button>
@@ -83,30 +83,19 @@
            aria-label="Sidebar">
         <div class="h-full px-3 py-4 overflow-y-auto bg-blue-50" style="background-color:white;">
             <ul class="space-y-2">
+                @*                Filtro1*@
+                <form method="get" asp-action="VistasGridTodosProductos">
                 <li>
-                    <a href="#"
-                       class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-purple-100 dark:hover:bg-gray-700">
+                    <button type="button"
+                            class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                            aria-controls="dropdown-example" data-collapse-toggle="dropdown-example" name="categoria" id="categoria">
                         <svg aria-hidden="true"
                              class="w-6 h-6 text-purple-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                              fill="currentColor" viewBox="0 0 20 20">
                             <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                             <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                         </svg>
-                        <span class="ml-3">Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <button type="button"
-                            class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                            aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
-                        <svg aria-hidden="true"
-                             class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                             fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd"
-                                  d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
-                                  clip-rule="evenodd"></path>
-                        </svg>
-                        <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>E-commerce</span>
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Plataforma</span>
                         <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                   d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -114,80 +103,143 @@
                         </svg>
                     </button>
                     <ul id="dropdown-example" class="hidden py-2 space-y-2">
-                        <li>
-                            <div class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                                <input checked id="purple-checkbox" type="checkbox" value="" class="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                <label for="purple-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Purple</label>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Billing</a>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Invoice</a>
-                        </li>
+                            @foreach (Categoria item in Model.Categorias)
+                            {
+                            <li>
+                                <div class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                    <input value="@item.NombreCategoria" name="plataforma" id="consolas-checkbox" type="checkbox" class="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="consolas-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">@item.NombreCategoria</label>
+                                </div>
+                            </li>
+                            }
+                        <button type="submit" class="px-3 py-1 font-semibold rounded bn1-hover bn2">Filtrar</button>
                     </ul>
                 </li>
+                </form>
+                @*                Filtro3*@
+                <form method="get" asp-action="VistasGridTodosProductos">
                 <li>
-                    <a href="#"
-                       class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <button type="button"
+                            class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                            aria-controls="dropdown-example3" data-collapse-toggle="dropdown-example3">
                         <svg aria-hidden="true"
-                             class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                             class="flex-shrink-0 w-6 h-6 text-purple-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                              fill="currentColor" viewBox="0 0 20 20">
                             <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
                             </path>
                         </svg>
-                        <span class="flex-1 ml-3 whitespace-nowrap">Kanban</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                       class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <svg aria-hidden="true"
-                             class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                             fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z">
-                            </path>
-                            <path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z">
-                            </path>
-                        </svg>
-                        <span class="flex-1 ml-3 whitespace-nowrap">Inbox</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#"
-                       class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <svg aria-hidden="true"
-                             class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                             fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Genero</span>
+                        <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                   clip-rule="evenodd"></path>
                         </svg>
-                        <span class="flex-1 ml-3 whitespace-nowrap">Users</span>
-                    </a>
+                    </button>
+                    <ul id="dropdown-example3" class="hidden py-2 space-y-2">
+                            @foreach (Producto item in Model.Productos)
+                            {
+                            <li>
+                                <div class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                    <input value="@item.Genero" name="generos" id="aventura-checkbox" type="checkbox" class="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <label for="aventura-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">@item.Genero</label>
+                                </div>
+                            </li>
+                            }
+                        <button type="submit" class="px-3 py-1 font-semibold rounded bn1-hover bn2">Filtrar</button>
+                    </ul>
+                </li>
+                </form>
+                @*                Filtro4*@
+                <li>
+                    <button type="button"
+                            class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                            aria-controls="dropdown-example4" data-collapse-toggle="dropdown-example4">
+                        <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-purple-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M207.58,63.84C186.85,53.48,
+                        159.33,48,128,48S69.15,53.48,48.42,63.84,16,88.78,16,104v48c0,15.22,11.82,29.85,32.42,40.16S96.67,208,128,208s58.85-5.48,79.58-15.84S240,167.22,240,
+                        152V104C240,88.78,228.18,74.15,207.58,63.84ZM128,64c62.64,0,96,23.23,96,40s-33.36,40-96,40-96-23.23-96-40S65.36,64,128,64Zm-8,95.86v32c-19-.62-35-3.42-48-7.
+                        49V153.05A203.43,203.43,0,0,0,120,159.86Zm16,0a203.43,203.43,0,0,0,48-6.81v31.31c-13,4.07-29,6.87-48,7.49ZM32,152V133.53a82.88,82.88,0,0,0,16.42,10.63c2.43,1.21,
+                        5,2.35,7.58,3.43V178C40.17,170.16,32,160.29,32,152Zm168,26V147.59c2.61-1.08,5.15-2.22,7.58-3.43A82.88,82.88,0,0,0,224,133.53V152C224,160.29,215.83,170.16,200,178Z">
+                            </path>
+                        </svg>
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Precio</span>
+                        <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                  clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+
+                    <ul id="dropdown-example4" class="hidden py-2 space-y-2">
+                        <li>
+                            <form method="get" asp-action="VistasGridTodosProductos">
+                                <label for="precioMinimo" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">MINIMO</label>
+                                <input id="precioMinimo" name="precioMinimo" type="text" style="width:100px" />
+                                <label for="precioMaximo" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">MAXIMO</label>
+                                <input id="precioMaximo" name="precioMaximo" type="text" style="width:100px" />
+                                <br />
+                                <button type="submit" class="px-3 py-1 font-semibold rounded bn1-hover bn2">Filtrar</button>
+                            </form>
+                        </li>
+                        <li>
+                            <div class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                <input id="50-150-checkbox" type="checkbox" value="" class="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <label for="50-150-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">50€ - 150€</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                <input id="150-300-checkbox" type="checkbox" value="" class="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <label for="150-300-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">150€ - 300€</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                                <input id="+300-checkbox" type="checkbox" value="" class="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <label for="+300-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">+300€</label>
+                            </div>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
     </aside>
     <!-- card -->
-    <div id="content" class="bodyCartas">
+    <div id="resultados" class="bodyCartas">
         <div class="containerCartas">
             @foreach (var item in Model.Productos)
             {
                 <div class="max-w-xs bg-white shadow-2xl rounded-lg overflow-hidden my-10">
                     <div class="px-4 py-2">
                         <h1 class="text-gray-900 font-bold text-3xl uppercase">@item.NombreProducto</h1>
-                        <p class="text-gray-600 text-sm mt-1">@item.Descripcion</p>
+                        <p class="text-gray-600 text-sm mt-1">@item.Genero</p>
                     </div>
                     <img class="h-50 w-full object-cover mt-2" src="@item.Imagen">
                     <div class="flex items-center justify-between px-4 py-2 bg-purple-900">
                         <h1 class="text-gray-200 font-bold text-xl">@item.Precio€</h1>
-                        <button class="px-3 py-1 font-semibold rounded bn632-hover bn18">Comprar</button>
+                        <button class="px-3 py-1 font-semibold rounded bn632-hover bn18">
+                            <a asp-controller="Productos"
+                           asp-action="VistasDetalles"
+                           asp-route-idproducto="@item.IdProducto">
+                                Comprar
+                            </a>
+                        </button>
                     </div>
                 </div>
             }
         </div>
     </div>
+    <script>
+        function buscarProductos() {
+            var buscar = document.getElementById("buscar").value;
+            $.ajax({
+                url: '@Url.Action("BuscarProductos", "Productos")',
+                type: 'GET',
+                data: { buscar: buscar },
+                success: function (data) {
+                    $("#resultados").html(data);
+                }
+            });
+        }
+    </script>
 </body>

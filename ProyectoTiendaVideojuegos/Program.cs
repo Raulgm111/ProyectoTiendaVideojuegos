@@ -11,6 +11,9 @@ string connectionString =
 builder.Services.AddTransient<IRepositoryProductos, RepositoryProductos>();
 builder.Services.AddDbContext<TiendaContext>
     (options => options.UseSqlServer(connectionString));
+builder.Services.AddTransient<RepositoryUsuarios>();
+builder.Services.AddDbContext<UsuariosContext>
+    (options => options.UseSqlServer(connectionString));
 
 builder.Services.AddControllersWithViews();
 

@@ -213,12 +213,18 @@
                 <div class="max-w-xs bg-white shadow-2xl rounded-lg overflow-hidden my-10">
                     <div class="px-4 py-2">
                         <h1 class="text-gray-900 font-bold text-3xl uppercase">@item.NombreProducto</h1>
-                        <p class="text-gray-600 text-sm mt-1">@item.Descripcion</p>
+                        <p class="text-gray-600 text-sm mt-1">@item.Genero</p>
                     </div>
                     <img class="h-50 w-full object-cover mt-2" src="@item.Imagen">
                     <div class="flex items-center justify-between px-4 py-2 bg-purple-900">
                         <h1 class="text-gray-200 font-bold text-xl">@item.Precio€</h1>
-                        <button class="px-3 py-1 font-semibold rounded bn632-hover bn18">Comprar</button>
+                        <button class="px-3 py-1 font-semibold rounded bn632-hover bn18">
+                            <a asp-controller="Productos"
+                           asp-action="VistasDetalles"
+                           asp-route-idproducto="@item.IdProducto">
+                                Comprar
+                            </a>
+                        </button>
                     </div>
                 </div>
             }

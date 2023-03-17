@@ -14,5 +14,6 @@ namespace ProyectoTiendaVideojuegos.Repositories
         List<Producto> FiltrarPorPlataforma(List<string> plataformas);
         List<Producto> FiltrarPorGenero(List<string> generos);
         List<Producto> FiltrarPorPrecio(int? precioMinimo, int? precioMaximo);
+        Producto DetallesProductos(int idproducto);
     }
 }

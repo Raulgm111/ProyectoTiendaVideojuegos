@@ -100,5 +100,13 @@ namespace ProyectoTiendaVideojuegos.Repositories
                            select productos;
             return consulta.ToList();
         }
+
+        public Producto DetallesProductos(int idproducto)
+        {
+            var consulta = from productos in context.Productos
+                           where productos.IdProducto == idproducto
+                           select productos;
+            return consulta.FirstOrDefault();
+        }
     }
 }

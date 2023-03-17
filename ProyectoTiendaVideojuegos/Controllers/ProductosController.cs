@@ -49,12 +49,26 @@ namespace ProyectoTiendaVideojuegos.Controllers
 
 
 
-        public IActionResult VistasGrid(int id)
+        public IActionResult VistasGrid(int id, List<string> plataforma,
+        List<string> generos, int? precioMinimo, int? precioMaximo)
         {
             CategoriasViewModel enlace = new CategoriasViewModel();
             enlace.Categorias = this.repo.GetCategorias();
             enlace.Subcategorias = this.repo.GetSubCategorias();
             enlace.Productos = this.repo.GetPorductosGrid(id);
+            if (plataforma != null && plataforma.Any())
+            {
+                enlace.Productos = this.repo.FiltrarPorPlataforma(plataforma);
+            }
+            else if (generos != null && generos.Any())
+            {
+                enlace.Productos = this.repo.FiltrarPorGenero(generos);
+            }
+
+            if (precioMinimo.HasValue && precioMaximo.HasValue)
+            {
+                enlace.Productos = enlace.Productos.Where(p => p.Precio >= precioMinimo.Value && p.Precio <= precioMaximo.Value).ToList();
+            }
             return View(enlace);
         }
 
@@ -66,6 +80,15 @@ namespace ProyectoTiendaVideojuegos.Controllers
             enlace.Subcategorias = this.repo.GetSubCategorias();
             return View(enlace);
 
+        }
+
+        public IActionResult VistasDetalles(int idproducto)
+        {
+            CategoriasViewModel enlace = new CategoriasViewModel();
+            enlace.Categorias = this.repo.GetCategorias();
+            enlace.Subcategorias = this.repo.GetSubCategorias();
+            enlace.Producto=this.repo.DetallesProductos(idproducto);    
+            return View(enlace);
         }
         #endregion
 
