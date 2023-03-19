@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 string connectionString =
-    builder.Configuration.GetConnectionString("SqlTienda");
+    builder.Configuration.GetConnectionString("SqlTiendaCasa");
 builder.Services.AddTransient<IRepositoryProductos, RepositoryProductos>();
 builder.Services.AddDbContext<TiendaContext>
     (options => options.UseSqlServer(connectionString));
@@ -15,6 +15,11 @@ builder.Services.AddTransient<RepositoryUsuarios>();
 builder.Services.AddDbContext<UsuariosContext>
     (options => options.UseSqlServer(connectionString));
 
+builder.Services.AddSession(options => {
+
+    options.IdleTimeout = TimeSpan.FromMinutes(10);
+
+});
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -33,6 +38,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.UseEndpoints(endpoints =>
 {

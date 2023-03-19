@@ -18,6 +18,8 @@ namespace ProyectoTiendaVideojuegos.Controllers
             var productos = this.repo.GetBuscadorProductos(buscar);
             return PartialView("_ResultadosBusqueda", productos);
         }
+
+
         #region VISTAS COMPLETAS
         public IActionResult VistasGridTodosProductos(List<string> plataforma,
         List<string> generos, int? precioMinimo, int? precioMaximo)

@@ -108,5 +108,13 @@ namespace ProyectoTiendaVideojuegos.Repositories
                            select productos;
             return consulta.FirstOrDefault();
         }
+
+        public List<Producto> BuscarProductoCarrito(List<int> id)
+        {
+            var consulta = from datos in this.context.Productos
+                           where id.Contains(datos.IdProducto)
+                           select datos;
+            return consulta.ToList();
+        }
     }
 }
