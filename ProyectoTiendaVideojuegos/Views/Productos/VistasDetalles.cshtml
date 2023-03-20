@@ -117,6 +117,10 @@
                 </div>
                 <div class="flex">
                     <span class="title-font font-medium text-2xl text-gray-900">@Model.Producto.Precio€</span>
+                    <form asp-action="VistasDetalles">
+                        <input type="hidden" name="idProducto" value="@Model.Producto.IdProducto"/>
+                        <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+                    </form>
                     <button class="flex ml-auto border-0 py-2 px-6 focus:outline-none font-semibold rounded bn632-hover bn18">Comprar</button>
                 </div>
             </div>

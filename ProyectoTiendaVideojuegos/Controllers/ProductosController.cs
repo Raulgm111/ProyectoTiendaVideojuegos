@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using ProyectoTiendaVideojuegos.Extensions;
 using ProyectoTiendaVideojuegos.Models;
 using ProyectoTiendaVideojuegos.Repositories;
+
 namespace ProyectoTiendaVideojuegos.Controllers
 {
     public class ProductosController : Controller
@@ -22,7 +23,7 @@ namespace ProyectoTiendaVideojuegos.Controllers
 
         #region VISTAS COMPLETAS
         public IActionResult VistasGridTodosProductos(List<string> plataforma,
-        List<string> generos, int? precioMinimo, int? precioMaximo)
+        List<string> generos, int? precioMinimo, int? precioMaximo, int? idproductoCarrito)
         {
             CategoriasViewModel enlace = new CategoriasViewModel();
             enlace.Categorias = this.repo.GetCategorias();
@@ -84,11 +85,28 @@ namespace ProyectoTiendaVideojuegos.Controllers
 
         }
 
-        public IActionResult VistasDetalles(int idproducto)
+        public IActionResult VistasDetalles(int idproducto,int? idproductoCarrito)
         {
             CategoriasViewModel enlace = new CategoriasViewModel();
             enlace.Categorias = this.repo.GetCategorias();
             enlace.Subcategorias = this.repo.GetSubCategorias();
+            if (idproducto != null)
+            {
+                List<int> carrito;
+                if (HttpContext.Session.GetObject<List<int>>("CARRITO") == null)
+                {
+                    carrito = new List<int>();
+                }
+                else
+                {
+                    carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
+                }
+                if (carrito.Contains(idproducto) == false)
+                {
+                    carrito.Add(idproducto);
+                    HttpContext.Session.SetObject("CARRITO", carrito);
+                }
+            }
             enlace.Producto=this.repo.DetallesProductos(idproducto);    
             return View(enlace);
         }
