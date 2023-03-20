@@ -2,6 +2,7 @@
 using ProyectoTiendaVideojuegos.Extensions;
 using ProyectoTiendaVideojuegos.Models;
 using ProyectoTiendaVideojuegos.Repositories;
+using System.Linq;
 
 namespace ProyectoTiendaVideojuegos.Controllers
 {
@@ -85,12 +86,12 @@ namespace ProyectoTiendaVideojuegos.Controllers
 
         }
 
-        public IActionResult VistasDetalles(int idproducto,int? idproductoCarrito)
+        public IActionResult VistasDetalles(int idproducto, int? idproductoCarrito)
         {
             CategoriasViewModel enlace = new CategoriasViewModel();
             enlace.Categorias = this.repo.GetCategorias();
             enlace.Subcategorias = this.repo.GetSubCategorias();
-            if (idproducto != null)
+            if (idproductoCarrito != null)
             {
                 List<int> carrito;
                 if (HttpContext.Session.GetObject<List<int>>("CARRITO") == null)
@@ -101,17 +102,35 @@ namespace ProyectoTiendaVideojuegos.Controllers
                 {
                     carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
                 }
-                if (carrito.Contains(idproducto) == false)
+                if (carrito.Contains(idproductoCarrito.Value) == false)
                 {
-                    carrito.Add(idproducto);
+                    carrito.Add(idproductoCarrito.Value);
                     HttpContext.Session.SetObject("CARRITO", carrito);
                 }
             }
-            enlace.Producto=this.repo.DetallesProductos(idproducto);    
+            enlace.Producto = this.repo.DetallesProductos(idproducto);
             return View(enlace);
         }
         #endregion
+        public IActionResult Carrito(int? idproductoCarrito)
+        {
+            List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
+            if (carrito == null)
+            {
+                return View();
+            }
+            else
+            {
+                if (idproductoCarrito != null)
+                {
+                    carrito.Remove(idproductoCarrito.Value);
+                    HttpContext.Session.SetObject("CARRITO", carrito);
+                }
 
+                List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
+                return View(productos);
+            }
+        }
 
     }
 }

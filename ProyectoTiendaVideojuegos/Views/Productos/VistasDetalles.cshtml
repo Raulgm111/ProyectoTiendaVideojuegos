@@ -1,4 +1,8 @@
 ﻿@model CategoriasViewModel
+
+@{
+    List<int> carrito = Context.Session.GetObject<List<int>>("CARRITO");
+}
 <nav class="category-section header sticky top-0 bg-white shadow-md flex items-center justify-between px-8 py-02" style="z-index: 2;">
     <div class="container flex flex-wrap items-center justify-between mx-auto">
         <a asp-controller="Productos"
@@ -117,10 +121,16 @@
                 </div>
                 <div class="flex">
                     <span class="title-font font-medium text-2xl text-gray-900">@Model.Producto.Precio€</span>
-                    <form asp-action="VistasDetalles">
-                        <input type="hidden" name="idProducto" value="@Model.Producto.IdProducto"/>
-                        <button type="submit" class="btn btn-primary">Agregar al carrito</button>
-                    </form>
+                    @if (carrito != null && carrito.Contains(@Model.Producto.IdProducto))
+                    {
+                        <button disabled class="btn btn-outline-danger disabled">En carrito</button>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-success" asp-action="VistasDetalles" asp-controller="Productos" asp-route-idproductoCarrito="@Model.Producto.IdProducto">
+                            Añadir a carrito
+                        </a>
+                    }
                     <button class="flex ml-auto border-0 py-2 px-6 focus:outline-none font-semibold rounded bn632-hover bn18">Comprar</button>
                 </div>
             </div>
