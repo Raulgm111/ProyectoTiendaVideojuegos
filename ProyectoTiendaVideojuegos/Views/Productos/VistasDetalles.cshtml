@@ -123,15 +123,25 @@
                     <span class="title-font font-medium text-2xl text-gray-900">@Model.Producto.Precio€</span>
                     @if (carrito != null && carrito.Contains(@Model.Producto.IdProducto))
                     {
-                        <button disabled class="btn btn-outline-danger disabled">En carrito</button>
+                        <button class="flex ml-auto border-0 py-2 px-6 focus:outline-none font-semibold rounded bn632-hover bn18">En carrito</button>
                     }
                     else
                     {
-                        <a class="btn btn-outline-success" asp-action="VistasDetalles" asp-controller="Productos" asp-route-idproductoCarrito="@Model.Producto.IdProducto">
-                            Añadir a carrito
-                        </a>
+                        <form method="post" action="@Url.Action("VistasDetalles", "Productos")">
+                            <input type="hidden" name="idproducto" value="@Model.Producto.IdProducto" />
+                            <label for="cantidad">Cantidad:</label>
+                            <input type="number" id="cantidad" name="cantidad" value="5" />
+@*                            <select class="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
+                                <option id="cantidad" name="cantidad" value="1">1</option>
+                                <option id="cantidad" name="cantidad" value="2">2</option>
+                                <option id="cantidad" name="cantidad" value="3">3</option>
+                                <option id="cantidad" name="cantidad" value="4">4</option>
+                            </select>*@
+                            <button type="submit" class="flex ml-auto border-0 py-2 px-6 focus:outline-none font-semibold rounded bn632-hover bn18" asp-action="VistasDetalles" asp-controller="Productos" asp-route-idproductoAñadir="@Model.Producto.IdProducto" asp-route-idproducto="@Model.Producto.IdProducto">
+                                Comprar
+                            </button>
+                        </form>
                     }
-                    <button class="flex ml-auto border-0 py-2 px-6 focus:outline-none font-semibold rounded bn632-hover bn18">Comprar</button>
                 </div>
             </div>
         </div>

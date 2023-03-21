@@ -12,5 +12,6 @@ namespace ProyectoTiendaVideojuegos.Models
         public List<SubCategoria> Subcategorias { get; set; }
         
         public Producto Producto { get; set; }
+
     }
 }

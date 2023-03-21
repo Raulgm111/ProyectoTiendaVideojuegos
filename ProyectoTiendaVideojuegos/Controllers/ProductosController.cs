@@ -86,12 +86,12 @@ namespace ProyectoTiendaVideojuegos.Controllers
 
         }
 
-        public IActionResult VistasDetalles(int idproducto, int? idproductoCarrito)
+        public IActionResult VistasDetalles(int idproducto,int? idproductoAñadir)
         {
             CategoriasViewModel enlace = new CategoriasViewModel();
             enlace.Categorias = this.repo.GetCategorias();
             enlace.Subcategorias = this.repo.GetSubCategorias();
-            if (idproductoCarrito != null)
+            if (idproductoAñadir != null)
             {
                 List<int> carrito;
                 if (HttpContext.Session.GetObject<List<int>>("CARRITO") == null)
@@ -102,15 +102,36 @@ namespace ProyectoTiendaVideojuegos.Controllers
                 {
                     carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
                 }
-                if (carrito.Contains(idproductoCarrito.Value) == false)
+                if (carrito.Contains(idproductoAñadir.Value) == false)
                 {
-                    carrito.Add(idproductoCarrito.Value);
+                    carrito.Add(idproductoAñadir.Value);
                     HttpContext.Session.SetObject("CARRITO", carrito);
                 }
+
             }
             enlace.Producto = this.repo.DetallesProductos(idproducto);
             return View(enlace);
         }
+
+        [HttpPost]
+        public IActionResult VistasDetalles(int idproducto, int cantidad)
+        {
+
+            List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
+            if (carrito == null)
+            {
+                carrito = new List<int>();
+            }
+
+            for (int i = 0; i < cantidad; i++)
+            {
+                carrito.Add(idproducto);
+            }
+            HttpContext.Session.SetObject("CARRITO", carrito);
+
+            return RedirectToAction("MisVistas");
+        }
+
         #endregion
         public IActionResult Carrito(int? idproductoCarrito)
         {
@@ -126,7 +147,7 @@ namespace ProyectoTiendaVideojuegos.Controllers
                     carrito.Remove(idproductoCarrito.Value);
                     HttpContext.Session.SetObject("CARRITO", carrito);
                 }
-
+                ViewData["CANTIDAD"] = carrito.Count;
                 List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
                 return View(productos);
             }
