@@ -147,7 +147,6 @@ namespace ProyectoTiendaVideojuegos.Controllers
                     carrito.Remove(idproductoCarrito.Value);
                     HttpContext.Session.SetObject("CARRITO", carrito);
                 }
-                ViewData["CANTIDAD"] = carrito.Count;
                 List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
                 return View(productos);
             }

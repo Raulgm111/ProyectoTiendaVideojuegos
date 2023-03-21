@@ -55,6 +55,7 @@
     </div>
 </nav>
 @*detalles*@
+<form method="post" action="@Url.Action("VistasDetalles", "Productos")">
 <section class="text-gray-700 body-font overflow-hidden bg-white">
     <div class="container px-5 py-24 mx-auto">
         <div class="lg:w-4/5 mx-auto flex flex-wrap">
@@ -105,12 +106,13 @@
                     <div class="flex ml-6 items-center">
                         <span class="mr-3">Cantidad</span>
                         <div class="relative">
-                            <select class="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                            </select>
+                                <input type="hidden" name="idproducto" value="@Model.Producto.IdProducto" />
+                                <select class="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10" id="cantidad" name="cantidad">
+                                    @for (int i = 1; i <= 10; i++)
+                                    {
+                                        <option value="@i">@i</option>
+                                    }
+                                </select>
                             <span class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
                                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4" viewBox="0 0 24 24">
                                     <path d="M6 9l6 6 6-6"></path>
@@ -127,23 +129,13 @@
                     }
                     else
                     {
-                        <form method="post" action="@Url.Action("VistasDetalles", "Productos")">
-                            <input type="hidden" name="idproducto" value="@Model.Producto.IdProducto" />
-                            <label for="cantidad">Cantidad:</label>
-                            <input type="number" id="cantidad" name="cantidad" value="5" />
-@*                            <select class="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
-                                <option id="cantidad" name="cantidad" value="1">1</option>
-                                <option id="cantidad" name="cantidad" value="2">2</option>
-                                <option id="cantidad" name="cantidad" value="3">3</option>
-                                <option id="cantidad" name="cantidad" value="4">4</option>
-                            </select>*@
                             <button type="submit" class="flex ml-auto border-0 py-2 px-6 focus:outline-none font-semibold rounded bn632-hover bn18" asp-action="VistasDetalles" asp-controller="Productos" asp-route-idproductoAñadir="@Model.Producto.IdProducto" asp-route-idproducto="@Model.Producto.IdProducto">
                                 Comprar
                             </button>
-                        </form>
                     }
                 </div>
             </div>
         </div>
     </div>
 </section>
+</form>

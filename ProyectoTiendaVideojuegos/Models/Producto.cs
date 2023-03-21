@@ -39,10 +39,7 @@ namespace ProyectoTiendaVideojuegos.Models
         [Column("GENERO")]
         public string Genero { get; set; }
 
-        [Column("CANTIDAD")]
-        public int Cantidad { get; set; }
-
-        [NotMapped]
-        public int CantidadSeleccionada { get; set; }
+        //[Column("CANTIDAD")]
+        //public int Cantidad { get; set; }
     }
 }
