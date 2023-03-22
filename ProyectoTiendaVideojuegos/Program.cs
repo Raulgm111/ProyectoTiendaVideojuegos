@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 string connectionString =
-    builder.Configuration.GetConnectionString("SqlTienda");
+    builder.Configuration.GetConnectionString("SqlTiendaCasa");
 builder.Services.AddTransient<IRepositoryProductos, RepositoryProductos>();
 builder.Services.AddDbContext<TiendaContext>
     (options => options.UseSqlServer(connectionString));

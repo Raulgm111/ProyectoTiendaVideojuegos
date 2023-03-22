@@ -133,36 +133,6 @@ namespace ProyectoTiendaVideojuegos.Controllers
         }
 
         #endregion
-        public IActionResult Carrito(int? idproductoCarrito, int? ideliminar)
-        {
-            List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
-            if (carrito == null)
-            {
-                return View();
-            }
-            else
-            {
-                if (ideliminar != null)
-                {
-                    carrito.Remove(ideliminar.Value);
-                    if (carrito.Count == 0)
-                    {
-                        HttpContext.Session.Remove("CARRITO");
-                    }
-                    else
-                    {
-                        if (idproductoCarrito != null)
-                        {
-                            carrito.Remove(idproductoCarrito.Value);
-                            HttpContext.Session.SetObject("CARRITO", carrito);
-                        }
-                    }
-                }
-                List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
-                return View(productos);
-            }
-        }
-
         //public IActionResult Carrito(int? idproductoCarrito, int? ideliminar)
         //{
         //    List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
@@ -181,25 +151,91 @@ namespace ProyectoTiendaVideojuegos.Controllers
         //            }
         //            else
         //            {
-        //                HttpContext.Session.SetObject("CARRITO", carrito);
-        //            }
-        //        }
-        //        else if (idproductoCarrito != null)
-        //        {
-        //            carrito.Remove(idproductoCarrito.Value);
-        //            if (carrito.Count == 0)
-        //            {
-        //                HttpContext.Session.Remove("CARRITO");
-        //            }
-        //            else
-        //            {
-        //                HttpContext.Session.SetObject("CARRITO", carrito);
+        //                if (idproductoCarrito != null)
+        //                {
+        //                    carrito.Remove(idproductoCarrito.Value);
+        //                    HttpContext.Session.SetObject("CARRITO", carrito);
+        //                }
         //            }
         //        }
         //        List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
         //        return View(productos);
         //    }
         //}
+
+public IActionResult Carrito(int? idproductoCarrito, int? ideliminar, int? eliminarTodo, int? cantidad)
+{
+    List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
+    if (carrito == null)
+    {
+        return View();
+    }
+    else
+    {
+        if (eliminarTodo != null)
+        {
+            // Elimina todas las instancias del producto del carrito
+            carrito.RemoveAll(id => id == eliminarTodo.Value);
+            if (carrito.Count == 0)
+            {
+                HttpContext.Session.Remove("CARRITO");
+            }
+            else
+            {
+                HttpContext.Session.SetObject("CARRITO", carrito);
+            }
+        }
+        else if (ideliminar != null)
+        {
+            if (cantidad != null)
+            {
+                // Elimina una cantidad específica del producto del carrito
+                for (int i = 0; i < cantidad.Value; i++)
+                {
+                    carrito.Remove(ideliminar.Value);
+                }
+            }
+            else
+            {
+                // Elimina una sola instancia del producto del carrito
+                carrito.Remove(ideliminar.Value);
+            }
+
+            if (carrito.Count == 0)
+            {
+                HttpContext.Session.Remove("CARRITO");
+            }
+            else
+            {
+                HttpContext.Session.SetObject("CARRITO", carrito);
+            }
+        }
+        else if (idproductoCarrito != null)
+        {
+            if (cantidad != null)
+            {
+                // Agrega una cantidad específica del producto al carrito
+                for (int i = 0; i < cantidad.Value; i++)
+                {
+                    carrito.Add(idproductoCarrito.Value);
+                }
+            }
+            else
+            {
+                // Agrega una sola instancia del producto al carrito
+                carrito.Add(idproductoCarrito.Value);
+            }
+
+            HttpContext.Session.SetObject("CARRITO", carrito);
+        }
+
+        List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
+        return View(productos);
+    }
+}
+
+
+
 
     }
 }
