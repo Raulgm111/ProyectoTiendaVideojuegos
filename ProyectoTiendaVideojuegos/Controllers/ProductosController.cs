@@ -133,7 +133,7 @@ namespace ProyectoTiendaVideojuegos.Controllers
         }
 
         #endregion
-        public IActionResult Carrito(int? idproductoCarrito)
+        public IActionResult Carrito(int? idproductoCarrito, int? ideliminar)
         {
             List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
             if (carrito == null)
@@ -142,15 +142,25 @@ namespace ProyectoTiendaVideojuegos.Controllers
             }
             else
             {
-                if (idproductoCarrito != null)
+                if (ideliminar != null)
                 {
-                    carrito.Remove(idproductoCarrito.Value);
-                    HttpContext.Session.SetObject("CARRITO", carrito);
+                    carrito.Remove(ideliminar.Value);
+                    if (carrito.Count == 0)
+                    {
+                        HttpContext.Session.Remove("CARRITO");
+                    }
+                    else
+                    {
+                        if (idproductoCarrito != null)
+                        {
+                            carrito.Remove(idproductoCarrito.Value);
+                            HttpContext.Session.SetObject("CARRITO", carrito);
+                        }
+                    }
                 }
                 List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
                 return View(productos);
             }
         }
-
     }
 }
