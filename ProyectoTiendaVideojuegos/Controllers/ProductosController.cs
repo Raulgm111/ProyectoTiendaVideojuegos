@@ -162,5 +162,44 @@ namespace ProyectoTiendaVideojuegos.Controllers
                 return View(productos);
             }
         }
+
+        //public IActionResult Carrito(int? idproductoCarrito, int? ideliminar)
+        //{
+        //    List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
+        //    if (carrito == null)
+        //    {
+        //        return View();
+        //    }
+        //    else
+        //    {
+        //        if (ideliminar != null)
+        //        {
+        //            carrito.Remove(ideliminar.Value);
+        //            if (carrito.Count == 0)
+        //            {
+        //                HttpContext.Session.Remove("CARRITO");
+        //            }
+        //            else
+        //            {
+        //                HttpContext.Session.SetObject("CARRITO", carrito);
+        //            }
+        //        }
+        //        else if (idproductoCarrito != null)
+        //        {
+        //            carrito.Remove(idproductoCarrito.Value);
+        //            if (carrito.Count == 0)
+        //            {
+        //                HttpContext.Session.Remove("CARRITO");
+        //            }
+        //            else
+        //            {
+        //                HttpContext.Session.SetObject("CARRITO", carrito);
+        //            }
+        //        }
+        //        List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
+        //        return View(productos);
+        //    }
+        //}
+
     }
 }
