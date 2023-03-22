@@ -174,7 +174,6 @@ public IActionResult Carrito(int? idproductoCarrito, int? ideliminar, int? elimi
     {
         if (eliminarTodo != null)
         {
-            // Elimina todas las instancias del producto del carrito
             carrito.RemoveAll(id => id == eliminarTodo.Value);
             if (carrito.Count == 0)
             {
@@ -189,7 +188,6 @@ public IActionResult Carrito(int? idproductoCarrito, int? ideliminar, int? elimi
         {
             if (cantidad != null)
             {
-                // Elimina una cantidad específica del producto del carrito
                 for (int i = 0; i < cantidad.Value; i++)
                 {
                     carrito.Remove(ideliminar.Value);
@@ -197,7 +195,6 @@ public IActionResult Carrito(int? idproductoCarrito, int? ideliminar, int? elimi
             }
             else
             {
-                // Elimina una sola instancia del producto del carrito
                 carrito.Remove(ideliminar.Value);
             }
 
@@ -214,7 +211,6 @@ public IActionResult Carrito(int? idproductoCarrito, int? ideliminar, int? elimi
         {
             if (cantidad != null)
             {
-                // Agrega una cantidad específica del producto al carrito
                 for (int i = 0; i < cantidad.Value; i++)
                 {
                     carrito.Add(idproductoCarrito.Value);
@@ -222,7 +218,6 @@ public IActionResult Carrito(int? idproductoCarrito, int? ideliminar, int? elimi
             }
             else
             {
-                // Agrega una sola instancia del producto al carrito
                 carrito.Add(idproductoCarrito.Value);
             }
 
