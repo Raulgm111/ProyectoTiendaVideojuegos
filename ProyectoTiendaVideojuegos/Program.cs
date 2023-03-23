@@ -1,13 +1,28 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using ProyectoTiendaVideojuegos.Data;
 using ProyectoTiendaVideojuegos.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddSession(options => {
+
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+
+});
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultSignInScheme =
+    CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme =
+    CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme =
+    CookieAuthenticationDefaults.AuthenticationScheme;
+}).AddCookie();
 
 string connectionString =
-    builder.Configuration.GetConnectionString("SqlTiendaCasa");
+    builder.Configuration.GetConnectionString("SqlTienda");
 builder.Services.AddTransient<IRepositoryProductos, RepositoryProductos>();
 builder.Services.AddDbContext<TiendaContext>
     (options => options.UseSqlServer(connectionString));
@@ -15,11 +30,7 @@ builder.Services.AddTransient<RepositoryUsuarios>();
 builder.Services.AddDbContext<UsuariosContext>
     (options => options.UseSqlServer(connectionString));
 
-builder.Services.AddSession(options => {
 
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-
-});
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -37,27 +48,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseSession();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(
-        name: "CategoriasNavegacion",
-        pattern: "Productos/GridProductos/{id?}",
-        defaults: new { controller = "Productos", action = "CategoriasNavegacion" });
-
-        endpoints.MapControllerRoute(
-        name: "Index",
-        pattern: "Index",
-        defaults: new { controller = "Productos", action = "Index" });
-
-        endpoints.MapControllerRoute(
-        name: "SubCategoriasNavegacion",
-        pattern: "eee",
-        defaults: new { controller = "Productos", action = "SubCategoriasNavegacion" });
-
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Productos}/{action=MisVistas}/{id?}");

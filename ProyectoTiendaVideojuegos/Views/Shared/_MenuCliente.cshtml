@@ -1,0 +1,23 @@
+﻿@using System.Security.Claims;
+
+@if (Context.User.Identity.IsAuthenticated == false)
+{
+    <li>
+        <a class="text-sm hover:bg-purple-100 text-gray-700 block px-4 py-2" asp-area="" asp-controller="Managed" asp-action="LogIn">
+            Inciar Sesion
+        </a>
+    </li>
+}
+else
+{
+    <li>
+        <a class="text-sm hover:bg-purple-100 text-gray-700 block px-4 py-2" asp-area="" asp-controller="Empleados" asp-action="PerfilEmpleado">
+            <span style="color:mediumpurple">@Context.User.FindFirstValue("Nombre")</span>
+        </a>
+    </li>
+    <li>
+        <a class="text-sm hover:bg-purple-100 text-gray-700 block px-4 py-2" asp-area="" asp-controller="Managed" asp-action="LogOut">
+            Cerrar Sesion
+        </a>
+    </li>
+}

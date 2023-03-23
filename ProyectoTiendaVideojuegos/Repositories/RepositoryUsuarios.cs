@@ -1,4 +1,5 @@
-﻿using ProyectoTiendaVideojuegos.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ProyectoTiendaVideojuegos.Data;
 using ProyectoTiendaVideojuegos.Helpers;
 using ProyectoTiendaVideojuegos.Models;
 
@@ -38,28 +39,21 @@ namespace ProyectoTiendaVideojuegos.Repositories
             await this.context.SaveChangesAsync();
         }
 
-        public Cliente LoginUser(string email, string password)
+
+        public async Task<Cliente> ExisteCliente
+            (string username, string password)
         {
-            Cliente user = this.context.Clientes.FirstOrDefault(z => z.Email == email);
-            if (user == null)
-            {
-                return null;
-            }
-            else
-            {
-                byte[] passUsuario = user.Contraseña;
-                string salt = user.Salt;
-                byte[] temp = HelperCryptography.EncryptPassword(password, salt);
-                bool respuesta = HelperCryptography.CompareArrays(passUsuario, temp);
-                if (respuesta == true)
-                {
-                    return user;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            Cliente cliente = await this.FindEmailAsync(username);
+            var usuario = await this.context.Clientes.Where(x => x.Email == username && x.Contraseña == HelperCryptography.EncryptPassword(password, cliente.Salt)).FirstOrDefaultAsync();
+            return usuario;
+        }
+
+        public async Task<Cliente> FindEmailAsync(string username)
+        {
+            Cliente usuario =
+            await this.context.Clientes.Where
+            (x => x.Email == username).FirstOrDefaultAsync();
+            return usuario;
         }
     }
 }

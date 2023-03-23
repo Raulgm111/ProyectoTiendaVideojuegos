@@ -133,6 +133,8 @@ namespace ProyectoTiendaVideojuegos.Controllers
         }
 
         #endregion
+
+
 public IActionResult Carrito(int? idproductoCarrito, int? ideliminar, int? eliminarTodo, int? cantidad)
 {
     List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
