@@ -5,22 +5,12 @@ using ProyectoTiendaVideojuegos.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options => {
 
     options.IdleTimeout = TimeSpan.FromMinutes(30);
 
 });
-
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultSignInScheme =
-    CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultAuthenticateScheme =
-    CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme =
-    CookieAuthenticationDefaults.AuthenticationScheme;
-}).AddCookie();
-
 string connectionString =
     builder.Configuration.GetConnectionString("SqlTienda");
 builder.Services.AddTransient<IRepositoryProductos, RepositoryProductos>();
@@ -30,8 +20,22 @@ builder.Services.AddTransient<RepositoryUsuarios>();
 builder.Services.AddDbContext<UsuariosContext>
     (options => options.UseSqlServer(connectionString));
 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+}).AddCookie(
+    CookieAuthenticationDefaults.AuthenticationScheme,
+    config =>
+    {
+        config.AccessDeniedPath = "/Managed/ErrorAcceso";
+    });
 
-builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews(options =>
+options.EnableEndpointRouting = false)
+    .AddSessionStateTempDataProvider();
 
 var app = builder.Build();
 
@@ -53,11 +57,11 @@ app.UseAuthorization();
 
 app.UseSession();
 
-app.UseEndpoints(endpoints =>
+app.UseMvc(route =>
 {
-    endpoints.MapControllerRoute(
+    route.MapRoute(
         name: "default",
-        pattern: "{controller=Productos}/{action=MisVistas}/{id?}");
+        template: "{controller=Productos}/{action=MisVistas}/{id?}");
 });
 
 

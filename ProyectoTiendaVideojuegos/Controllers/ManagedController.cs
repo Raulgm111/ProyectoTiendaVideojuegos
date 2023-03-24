@@ -41,18 +41,21 @@ namespace ProyectoTiendaVideojuegos.Controllers
                 identity.AddClaim
                 (new Claim(ClaimTypes.Name, cliente.Email));
                 identity.AddClaim
-                (new Claim(ClaimTypes.NameIdentifier, cliente.Contraseña.ToString())); ClaimsPrincipal user = new ClaimsPrincipal(identity); await HttpContext.SignInAsync
-                (CookieAuthenticationDefaults.AuthenticationScheme
-                , user);
+                (new Claim(ClaimTypes.NameIdentifier, cliente.Contraseña.ToString()));
+
                 Claim claimNombre =
                     new Claim("Nombre", cliente.Nombre.ToString());
                 identity.AddClaim(claimNombre);
                 Claim claimApellidos =
-               new Claim("Apellidos", cliente.Apellidos.ToString());
+                    new Claim("Apellidos", cliente.Apellidos.ToString());
                 identity.AddClaim(claimApellidos);
                 //Claim claimImagen =
                 //    new Claim("Imagen", cliente.Imagen.ToString());
                 //identity.AddClaim(claimImagen);
+                ClaimsPrincipal user = new ClaimsPrincipal(identity); 
+                await HttpContext.SignInAsync
+                (CookieAuthenticationDefaults.AuthenticationScheme
+                , user);
                 return RedirectToAction("MisVistas", "Productos");
             }
             else

@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ProyectoTiendaVideojuegos.Extensions;
+using ProyectoTiendaVideojuegos.Filters;
 using ProyectoTiendaVideojuegos.Models;
 using ProyectoTiendaVideojuegos.Repositories;
-using System.Linq;
 
 namespace ProyectoTiendaVideojuegos.Controllers
 {
@@ -86,7 +87,7 @@ namespace ProyectoTiendaVideojuegos.Controllers
 
         }
 
-        public IActionResult VistasDetalles(int idproducto,int? idproductoAñadir)
+        public IActionResult VistasDetalles(int idproducto,int? idproductoAñadir, int?idproductoAñadirFav)
         {
             CategoriasViewModel enlace = new CategoriasViewModel();
             enlace.Categorias = this.repo.GetCategorias();
@@ -109,99 +110,178 @@ namespace ProyectoTiendaVideojuegos.Controllers
                 }
 
             }
+            if (idproductoAñadirFav != null)
+            {
+                List<int> favoritos;
+                if (HttpContext.Session.GetObject<List<int>>("FAVORITO") == null)
+                {
+                    favoritos = new List<int>();
+                }
+                else
+                {
+                    favoritos = HttpContext.Session.GetObject<List<int>>("FAVORITO");
+                }
+                if (favoritos.Contains(idproductoAñadirFav.Value) == false)
+                {
+                    favoritos.Add(idproductoAñadirFav.Value);
+                    HttpContext.Session.SetObject("FAVORITO", favoritos);
+                }
+
+            }
             enlace.Producto = this.repo.DetallesProductos(idproducto);
             return View(enlace);
         }
 
         [HttpPost]
-        public IActionResult VistasDetalles(int idproducto, int cantidad)
+        public IActionResult VistasDetalles(int idproducto, int cantidad, string accion)
         {
-
-            List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
-            if (carrito == null)
+            if (accion == "AgregarCarrito")
             {
-                carrito = new List<int>();
-            }
+                List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
+                if (carrito == null)
+                {
+                    carrito = new List<int>();
+                }
 
-            for (int i = 0; i < cantidad; i++)
-            {
-                carrito.Add(idproducto);
+                for (int i = 0; i < cantidad; i++)
+                {
+                    carrito.Add(idproducto);
+                }
+
+                HttpContext.Session.SetObject("CARRITO", carrito);
             }
-            HttpContext.Session.SetObject("CARRITO", carrito);
+            else if (accion == "AgregarFavoritos")
+            {
+                List<int> favoritos = HttpContext.Session.GetObject<List<int>>("FAVORITO");
+                if (favoritos == null)
+                {
+                    favoritos = new List<int>();
+                }
+
+                for (int i = 0; i < cantidad; i++)
+                {
+                    favoritos.Add(idproducto);
+                }
+
+                HttpContext.Session.SetObject("FAVORITO", favoritos);
+            }
 
             return RedirectToAction("MisVistas");
         }
 
+
         #endregion
 
-
-public IActionResult Carrito(int? idproductoCarrito, int? ideliminar, int? eliminarTodo, int? cantidad)
-{
-    List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
-    if (carrito == null)
-    {
-        return View();
-    }
-    else
-    {
-        if (eliminarTodo != null)
+        #region CARRITO
+        [AuthorizeClientes]
+        public IActionResult Carrito(int? idproductoCarrito, int? ideliminar, int? eliminarTodo, int? cantidad)
         {
-            carrito.RemoveAll(id => id == eliminarTodo.Value);
-            if (carrito.Count == 0)
+            List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
+            if (carrito == null)
             {
-                HttpContext.Session.Remove("CARRITO");
+                return View();
             }
             else
             {
-                HttpContext.Session.SetObject("CARRITO", carrito);
-            }
-        }
-        else if (ideliminar != null)
-        {
-            if (cantidad != null)
-            {
-                for (int i = 0; i < cantidad.Value; i++)
+                if (eliminarTodo != null)
                 {
-                    carrito.Remove(ideliminar.Value);
+                    carrito.RemoveAll(id => id == eliminarTodo.Value);
+                    if (carrito.Count == 0)
+                    {
+                        HttpContext.Session.Remove("CARRITO");
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetObject("CARRITO", carrito);
+                    }
                 }
-            }
-            else
-            {
-                carrito.Remove(ideliminar.Value);
-            }
-
-            if (carrito.Count == 0)
-            {
-                HttpContext.Session.Remove("CARRITO");
-            }
-            else
-            {
-                HttpContext.Session.SetObject("CARRITO", carrito);
-            }
-        }
-        else if (idproductoCarrito != null)
-        {
-            if (cantidad != null)
-            {
-                for (int i = 0; i < cantidad.Value; i++)
+                else if (ideliminar != null)
                 {
-                    carrito.Add(idproductoCarrito.Value);
+                    if (cantidad != null)
+                    {
+                        for (int i = 0; i < cantidad.Value; i++)
+                        {
+                            carrito.Remove(ideliminar.Value);
+                        }
+                    }
+                    else
+                    {
+                        carrito.Remove(ideliminar.Value);
+                    }
+
+                    if (carrito.Count == 0)
+                    {
+                        HttpContext.Session.Remove("CARRITO");
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetObject("CARRITO", carrito);
+                    }
                 }
+                else if (idproductoCarrito != null)
+                {
+                    if (cantidad != null)
+                    {
+                        for (int i = 0; i < cantidad.Value; i++)
+                        {
+                            carrito.Add(idproductoCarrito.Value);
+                        }
+                    }
+                    else
+                    {
+                        carrito.Add(idproductoCarrito.Value);
+                    }
+
+                    HttpContext.Session.SetObject("CARRITO", carrito);
+                }
+
+                List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
+                return View(productos);
+            }
+
+
+
+        }
+        #endregion
+
+        public IActionResult Pedidos()
+        {
+            List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
+            List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
+            HttpContext.Session.Remove("CARRITO");
+            return View(productos);
+        }
+
+        [AuthorizeClientes]
+        public IActionResult Favoritos(int? idproductoFav, int? ideliminar)
+        {
+            List<int> favoritos = HttpContext.Session.GetObject<List<int>>("FAVORITO");
+            if (favoritos == null)
+            {
+                return View();
             }
             else
             {
-                carrito.Add(idproductoCarrito.Value);
+                if (ideliminar != null)
+                {
+                    favoritos.Remove(ideliminar.Value);
+                    if (favoritos.Count == 0)
+                    {
+                        HttpContext.Session.Remove("FAVORITO");
+                    }
+                    else
+                    {
+                        if (idproductoFav != null)
+                        {
+                            favoritos.Remove(idproductoFav.Value);
+                            HttpContext.Session.SetObject("FAVORITO", favoritos);
+                        }
+                    }
+                }
+                List<Producto> productos = this.repo.BuscarProductoFavorito(favoritos);
+                return View(productos);
             }
-
-            HttpContext.Session.SetObject("CARRITO", carrito);
         }
-
-        List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
-        return View(productos);
-    }
-}
-
-
 
 
     }

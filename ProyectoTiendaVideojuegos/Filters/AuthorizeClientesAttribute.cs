@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace ProyectoTiendaVideojuegos.Filters
 {
@@ -10,11 +11,14 @@ namespace ProyectoTiendaVideojuegos.Filters
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var user = context.HttpContext.User;
-            if (user.Identity.IsAuthenticated == false)
+
+            if (user.Identity.IsAuthenticated==false)
             {
                 context.Result = this.GetRoute("Managed", "LogIn");
             }
         }
+
+
 
         private RedirectToRouteResult GetRoute
             (string controller, string action)

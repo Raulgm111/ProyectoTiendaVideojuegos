@@ -16,5 +16,6 @@ namespace ProyectoTiendaVideojuegos.Repositories
         List<Producto> FiltrarPorPrecio(int? precioMinimo, int? precioMaximo);
         Producto DetallesProductos(int idproducto);
         List<Producto> BuscarProductoCarrito(List<int>? idproductoCarrito);
+        List<Producto> BuscarProductoFavorito(List<int>? idproductoFav);
     }
 }

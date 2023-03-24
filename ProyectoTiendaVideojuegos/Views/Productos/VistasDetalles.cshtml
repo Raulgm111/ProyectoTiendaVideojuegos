@@ -2,6 +2,7 @@
 
 @{
     List<int> carrito = Context.Session.GetObject<List<int>>("CARRITO");
+    List<int> favoritos = Context.Session.GetObject<List<int>>("FAVORITO");
 }
 <nav class="category-section header sticky top-0 bg-white shadow-md flex items-center justify-between px-8 py-02" style="z-index: 2;">
     <div class="container flex flex-wrap items-center justify-between mx-auto">
@@ -129,10 +130,28 @@
                     }
                     else
                     {
-                            <button type="submit" class="flex ml-auto border-0 py-2 px-6 focus:outline-none font-semibold rounded bn632-hover bn18" asp-action="VistasDetalles" asp-controller="Productos" asp-route-idproductoAñadir="@Model.Producto.IdProducto" asp-route-idproducto="@Model.Producto.IdProducto">
+                            <button type="submit" class="flex ml-auto border-0 py-2 px-6 focus:outline-none font-semibold rounded bn632-hover bn18" asp-action="VistasDetalles" asp-controller="Productos" asp-controller="Productos" asp-route-idproductoAñadir="@Model.Producto.IdProducto" asp-route-idproducto="@Model.Producto.IdProducto" name="accion" value="AgregarCarrito">
                                 Comprar
                             </button>
                     }
+
+                        @if (favoritos != null && favoritos.Contains(@Model.Producto.IdProducto))
+                        {
+                            <button class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
+                                <svg fill="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
+                                </svg>
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4" asp-action="VistasDetalles" asp-controller="Productos" asp-route-idproductoAñadirFav="@Model.Producto.IdProducto" asp-route-idproducto="@Model.Producto.IdProducto" name="accion" value="AgregarFavoritos">
+                                <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
+                                </svg>
+                            </button>
+                        }
+
                 </div>
             </div>
         </div>
