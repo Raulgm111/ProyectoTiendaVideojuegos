@@ -112,6 +112,13 @@
                                     var cantidadFinal = parseInt(cantidadSelectFinal.value);
                                     var precioTotalProducto = precioFinal * cantidadFinal;
                                     precioTotalFinal.textContent = precioTotalProducto + "€";
+
+                                        var cantidadFinalHidden = document.getElementById("cantidadFinalHidden");
+                                        cantidadFinalHidden.value = cantidadFinal;
+
+                                        var precioTotalFinalHidden = document.getElementById("precioTotalFinalHidden");
+                                        precioTotalFinalHidden.value = precioTotalProducto;
+
                                 </script>
                             </div>
                         }
@@ -127,7 +134,10 @@
                     <div class="mt-auto flex flex-col gap-2 pt-4">
                         <div class="flex justify-center text-center text-sm text-gray-500">
                             <p>
-                                <form method="post" asp-action="Pedidos">
+                                    <form method="post" asp-action="Carrito">
+                                        <input type="hidden" id="cantidadFinal" name="cantidadFinal" value="">
+                                        <input type="hidden" id="precioTotalFinal" name="precioTotalFinal" value="">
+
                                     <button class="w-full border-0 py-2 px-6 focus:outline-none font-semibold rounded bn632-hover bn18">
                                             Finalizar Compra
                                     </button>

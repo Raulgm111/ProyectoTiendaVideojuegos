@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProyectoTiendaVideojuegos.Data;
 using ProyectoTiendaVideojuegos.Models;
+using System.Data.Entity;
 
 namespace ProyectoTiendaVideojuegos.Repositories
 {
@@ -169,7 +170,7 @@ namespace ProyectoTiendaVideojuegos.Repositories
         //    this.context.SaveChanges();
         //}
 
-        public void AgregarPedido(List<Producto> productos, int idCliente, int precioTotal)
+        public void AgregarPedido(List<Producto> productos, int idCliente, int precioTotal, int cantidad)
         {
             int idPedido = GetMaxIdPedido();
 
@@ -177,7 +178,7 @@ namespace ProyectoTiendaVideojuegos.Repositories
             pedidoGeneral.IdPedido = idPedido;
             pedidoGeneral.IdCliente = idCliente;
             pedidoGeneral.PrecioTotal = precioTotal;
-            pedidoGeneral.Cantidad = productos.Count;
+            pedidoGeneral.Cantidad = cantidad;
 
             context.Pedidos.Add(pedidoGeneral);
             context.SaveChanges();
@@ -198,6 +199,31 @@ namespace ProyectoTiendaVideojuegos.Repositories
 
             context.SaveChanges();
         }
+
+        public void DeleteProductos(int idproducto)
+        {
+            Producto producto = this.DetallesProductos(idproducto);
+            if (producto != null)
+            {
+                this.context.Productos.Remove(producto);
+                this.context.SaveChanges();
+            }
+        }
+
+        public void UpdatePorducto(Producto producto)
+        {
+            Producto prod = this.DetallesProductos(producto.IdProducto);
+
+            prod.NombreProducto = producto.NombreProducto;
+            prod.Lanzamiento = producto.Lanzamiento;
+            prod.Imagen = producto.Imagen;
+            prod.Precio = producto.Precio;
+            prod.Descripcion = producto.Descripcion;
+            prod.Genero = producto.Genero;
+            this.context.SaveChanges();
+        }
+
+
 
 
 

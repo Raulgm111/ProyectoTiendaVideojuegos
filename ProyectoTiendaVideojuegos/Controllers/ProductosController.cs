@@ -252,15 +252,24 @@ namespace ProyectoTiendaVideojuegos.Controllers
         }
 
         [HttpPost]
-        public IActionResult Pedidos()
+        public IActionResult Pedidos(int idproducto, int cantidad)
         {
             List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
+            if (carrito == null)
+            {
+                carrito = new List<int>();
+            }
+
+            for (int i = 0; i < cantidad; i++)
+            {
+                carrito.Add(idproducto);
+            }
             int idCliente = int.Parse(HttpContext.User.FindFirst("IdCliente").Value);
 
             List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
             int precioTotal = productos.Sum(p => p.Precio);
 
-            this.repo.AgregarPedido(productos, idCliente, precioTotal);
+            this.repo.AgregarPedido(productos, idCliente, precioTotal, cantidad);
 
             HttpContext.Session.Remove("CARRITO");
 
@@ -310,6 +319,43 @@ namespace ProyectoTiendaVideojuegos.Controllers
                 List<Producto> productos = this.repo.BuscarProductoFavorito(favoritos);
                 return View(productos);
             }
+        }
+
+        [AuthorizeClientes(Policy = "AdminOnly")]
+        public IActionResult GetProductosAdmin()
+        {
+            List<Producto> productos =
+                 this.repo.GetTodosProductos();
+            return View(productos);
+        }
+
+        [AuthorizeClientes(Policy = "AdminOnly")]
+        public IActionResult DeleteProducto(int ididproducto)
+        {
+            Producto producto =
+                 this.repo.DetallesProductos(ididproducto);
+            return View(producto);
+        }
+        [AuthorizeClientes(Policy = "AdminOnly")]
+        public IActionResult EliminarProducto(int ididproducto)
+        {
+             this.repo.DeleteProductos(ididproducto);
+            return RedirectToAction("GetProductosAdmin");
+        }
+
+        [AuthorizeClientes(Policy = "AdminOnly")]
+        public IActionResult EditarProdAdmin(int idproducto)
+        {
+            Producto porducto = this.repo.DetallesProductos(idproducto);
+            return View(porducto);
+        }
+
+        [HttpPost]
+        [AuthorizeClientes(Policy = "AdminOnly")]
+        public IActionResult EditarProdAdmin(Producto producto)
+        {
+            this.repo.UpdatePorducto(producto);
+            return RedirectToAction("GetProductosAdmin");
         }
 
 

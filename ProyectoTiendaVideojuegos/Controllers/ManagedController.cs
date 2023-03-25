@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using ProyectoTiendaVideojuegos.Repositories;
 using System.Security.Claims;
 using ProyectoTiendaVideojuegos.Models;
+using System.Security.Principal;
+using System.Numerics;
 
 namespace ProyectoTiendaVideojuegos.Controllers
 {
@@ -42,7 +44,10 @@ namespace ProyectoTiendaVideojuegos.Controllers
                 (new Claim(ClaimTypes.Name, cliente.Email));
                 identity.AddClaim
                 (new Claim(ClaimTypes.NameIdentifier, cliente.Contraseña.ToString()));
-
+                if (cliente.IdCliente == 5)
+                {
+                    identity.AddClaim(new Claim("Administrador", "Soy el admin"));
+                }
                 Claim claimNombre =
                     new Claim("Nombre", cliente.Nombre.ToString());
                 identity.AddClaim(claimNombre);

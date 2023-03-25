@@ -11,6 +11,13 @@ builder.Services.AddSession(options => {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
 
 });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly",
+        policy => policy.RequireClaim("Administrador"));
+});
+
 string connectionString =
     builder.Configuration.GetConnectionString("SqlTiendaCasa");
 builder.Services.AddTransient<IRepositoryProductos, RepositoryProductos>();
