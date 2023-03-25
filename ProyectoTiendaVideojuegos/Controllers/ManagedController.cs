@@ -49,6 +49,9 @@ namespace ProyectoTiendaVideojuegos.Controllers
                 Claim claimApellidos =
                     new Claim("Apellidos", cliente.Apellidos.ToString());
                 identity.AddClaim(claimApellidos);
+                Claim claimIdCliente =
+                    new Claim("IdCliente", cliente.IdCliente.ToString());
+                identity.AddClaim(claimIdCliente);
                 //Claim claimImagen =
                 //    new Claim("Imagen", cliente.Imagen.ToString());
                 //identity.AddClaim(claimImagen);

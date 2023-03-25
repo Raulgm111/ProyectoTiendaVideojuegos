@@ -133,6 +133,7 @@ namespace ProyectoTiendaVideojuegos.Controllers
         }
 
         [HttpPost]
+        [AuthorizeClientes]
         public IActionResult VistasDetalles(int idproducto, int cantidad, string accion)
         {
             if (accion == "AgregarCarrito")
@@ -244,13 +245,41 @@ namespace ProyectoTiendaVideojuegos.Controllers
         }
         #endregion
 
+        public IActionResult MostrarPedidos()
+        {
+            List<Pedido> pedidos = this.repo.GetPedidos();
+            return View(pedidos);
+        }
+
+        [HttpPost]
         public IActionResult Pedidos()
         {
             List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
+            int idCliente = int.Parse(HttpContext.User.FindFirst("IdCliente").Value);
+
             List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
+            int precioTotal = productos.Sum(p => p.Precio);
+
+            this.repo.AgregarPedido(productos, idCliente, precioTotal);
+
             HttpContext.Session.Remove("CARRITO");
-            return View(productos);
+
+            return RedirectToAction("MostrarPedidos", new { id = idCliente });
         }
+
+
+
+
+
+
+        //public IActionResult Pedidos()
+        //{
+        //    List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
+        //    List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
+        //    HttpContext.Session.Remove("CARRITO");
+        //    return View(productos);
+        //}
+
 
         [AuthorizeClientes]
         public IActionResult Favoritos(int? idproductoFav, int? ideliminar)

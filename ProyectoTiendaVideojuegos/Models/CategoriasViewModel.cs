@@ -13,5 +13,6 @@ namespace ProyectoTiendaVideojuegos.Models
         
         public Producto Producto { get; set; }
 
+
     }
 }

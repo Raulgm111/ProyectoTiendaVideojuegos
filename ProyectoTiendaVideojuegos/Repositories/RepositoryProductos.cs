@@ -124,5 +124,88 @@ namespace ProyectoTiendaVideojuegos.Repositories
                            select datos;
             return consulta.ToList();
         }
+
+        private int GetMaxIdDetallesPedido()
+        {
+            if (this.context.DetallesPedido.Count() == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return this.context.DetallesPedido.Max(z => z.IdDetallesPedido) + 1;
+            }
+        }
+
+        private int GetMaxIdPedido()
+        {
+            if (this.context.Pedidos.Count() == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return this.context.Pedidos.Max(z => z.IdPedido) + 1;
+            }
+        }
+
+        public List<Pedido> GetPedidos()
+        {
+            var consulta = from datos in context.Pedidos
+                           select datos;
+            return consulta.ToList();
+        }
+
+        //public void AgregarPedido(Pedido pedido)
+        //{
+        //    pedido.IdPedido = GetMaxIdPedido();
+        //    context.Pedidos.Add(pedido);
+        //    context.SaveChanges();
+        //}
+
+        //public void AgregarPedidoProducto(PedidoProducto pedidoProducto)
+        //{
+        //    this.context.PedidosProductos.Add(pedidoProducto);
+        //    this.context.SaveChanges();
+        //}
+
+        public void AgregarPedido(List<Producto> productos, int idCliente, int precioTotal)
+        {
+            int idPedido = GetMaxIdPedido();
+
+            Pedido pedidoGeneral = new Pedido();
+            pedidoGeneral.IdPedido = idPedido;
+            pedidoGeneral.IdCliente = idCliente;
+            pedidoGeneral.PrecioTotal = precioTotal;
+            pedidoGeneral.Cantidad = productos.Count;
+
+            context.Pedidos.Add(pedidoGeneral);
+            context.SaveChanges();
+
+            int idDetallesPedido = GetMaxIdDetallesPedido(); 
+            foreach (Producto producto in productos)
+            {
+                DetallesPedido detallePedido = new DetallesPedido();
+                detallePedido.IdDetallesPedido = idDetallesPedido + 1; 
+                detallePedido.IdPedido = idPedido;
+                detallePedido.IdProducto = producto.IdProducto;
+                detallePedido.Cantidad = 1;
+                detallePedido.PrecioTotal = producto.Precio;
+
+                context.DetallesPedido.Add(detallePedido);
+                idDetallesPedido = detallePedido.IdDetallesPedido; 
+            }
+
+            context.SaveChanges();
+        }
+
+
+
+
+
+
+
+
+
     }
 }

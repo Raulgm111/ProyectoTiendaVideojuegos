@@ -17,5 +17,8 @@ namespace ProyectoTiendaVideojuegos.Repositories
         Producto DetallesProductos(int idproducto);
         List<Producto> BuscarProductoCarrito(List<int>? idproductoCarrito);
         List<Producto> BuscarProductoFavorito(List<int>? idproductoFav);
+        List<Pedido> GetPedidos();
+        void AgregarPedido(List<Producto> productos, int idCliente, int precioTotal);
+        //void AgregarPedidoProducto(PedidoProducto pedidoProducto);
     }
 }
