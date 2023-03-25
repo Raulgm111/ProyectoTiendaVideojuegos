@@ -22,6 +22,9 @@ namespace ProyectoTiendaVideojuegos.Models
         [Column("PRECIOTOTAL")]
         public int PrecioTotal { get; set; }
 
+        [NotMapped]
+        public string NombreProducto { get; set; }
+
 
     }
 

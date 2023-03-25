@@ -36,18 +36,23 @@ else
                 </div>
             </div>
     </li>
+        <li>
+        <a class="text-sm hover:bg-purple-100 text-gray-700 block px-4 py-2" asp-area="" asp-controller="Productos" asp-action="MostrarPedidos" asp-route-idcliente="@Context.User.FindFirstValue("IdCliente")">
+            Mis Pedidos
+        </a>
+    </li>
     <li>
         <a class="text-sm hover:bg-purple-100 text-gray-700 block px-4 py-2" asp-area="" asp-controller="Managed" asp-action="LogOut">
             Cerrar Sesion
         </a>
-@*<svg viewBox="0 0 100 100">
-  <path d="M50 5 L95 95 L5 95 Z" fill="none" stroke="black" stroke-width="10"/>
-  <path d="M30 50 L70 50" stroke="black" stroke-width="10"/>
-  <path d="M40 20 L60 20 L55 45 L45 45 Z" stroke="black" stroke-width="10"/>
-</svg>*@
-
-
-
-
     </li>
+            <li style="width:20px">
+        <a asp-area="" asp-controller="Productos" asp-action="GetProductosAdmin">
+            <svg viewBox="0 0 448 512">
+                <path d="M400 224H376V152C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48C21.5 224 0 245.5 0 272v192C0 485.5 21.5 507 48 507h352c26.5 0 48-21.5 48-48v-192C448 245.5 426.5 224 400 224zM296 224H152v-72C152 112.3 184.3 80 216 80S280 112.3 280 152v72z" />
+                </svg>
+
+
+        </a>
+        </li>
 }

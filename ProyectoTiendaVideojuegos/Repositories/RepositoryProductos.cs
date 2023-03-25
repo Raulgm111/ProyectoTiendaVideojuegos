@@ -187,6 +187,25 @@ namespace ProyectoTiendaVideojuegos.Repositories
             context.SaveChanges();
         }
 
+        public List<DetallesPedido> MostrarPedidos(int idcliente)
+        {
+            var consulta = from pedido in context.Pedidos
+                           join detalle in context.DetallesPedido on pedido.IdPedido equals detalle.IdPedido
+                           join producto in context.Productos on detalle.IdProducto equals producto.IdProducto
+                           where pedido.IdCliente == idcliente
+                           select new DetallesPedido
+                           {
+                               IdPedido = pedido.IdPedido,
+                               IdProducto = detalle.IdProducto,
+                               Cantidad = detalle.Cantidad,
+                               PrecioTotal = detalle.PrecioTotal,
+                               NombreProducto = producto.NombreProducto
+                           };
+
+            return consulta.ToList();
+
+        }
+
         public void DeleteProductos(int idproducto)
         {
             Producto producto = this.DetallesProductos(idproducto);

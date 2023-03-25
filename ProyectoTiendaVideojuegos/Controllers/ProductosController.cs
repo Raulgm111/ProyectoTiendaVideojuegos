@@ -245,9 +245,9 @@ namespace ProyectoTiendaVideojuegos.Controllers
         }
         #endregion
 
-        public IActionResult MostrarPedidos()
+        public IActionResult MostrarPedidos(int idcliente)
         {
-            List<Pedido> pedidos = this.repo.GetPedidos();
+            List<DetallesPedido> pedidos = this.repo.MostrarPedidos(idcliente);
             return View(pedidos);
         }
 
@@ -265,7 +265,8 @@ namespace ProyectoTiendaVideojuegos.Controllers
 
             HttpContext.Session.Remove("CARRITO");
 
-            return RedirectToAction("MostrarPedidos", new { id = idCliente });
+            return RedirectToAction("MostrarPedidos", new { idcliente = idCliente });
+                  
         }
 
 

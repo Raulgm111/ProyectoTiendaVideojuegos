@@ -57,9 +57,9 @@ namespace ProyectoTiendaVideojuegos.Controllers
                 Claim claimIdCliente =
                     new Claim("IdCliente", cliente.IdCliente.ToString());
                 identity.AddClaim(claimIdCliente);
-                Claim claimImagen =
-                    new Claim("Imagen", cliente.Imagen.ToString());
-                identity.AddClaim(claimImagen);
+                //Claim claimImagen =
+                //    new Claim("Imagen", cliente.Imagen.ToString());
+                //identity.AddClaim(claimImagen);
                 ClaimsPrincipal user = new ClaimsPrincipal(identity); 
                 await HttpContext.SignInAsync
                 (CookieAuthenticationDefaults.AuthenticationScheme

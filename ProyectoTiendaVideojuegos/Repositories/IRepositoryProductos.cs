@@ -21,5 +21,7 @@ namespace ProyectoTiendaVideojuegos.Repositories
         void AgregarPedido(List<Producto> productos, int idCliente, int precioTotal, List<int> cantidad);
         void DeleteProductos(int idproducto);
         void UpdatePorducto(Producto producto);
+
+        List<DetallesPedido> MostrarPedidos(int idcliente);
     }
 }
