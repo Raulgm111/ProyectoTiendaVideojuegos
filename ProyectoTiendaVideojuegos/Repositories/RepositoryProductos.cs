@@ -157,20 +157,7 @@ namespace ProyectoTiendaVideojuegos.Repositories
             return consulta.ToList();
         }
 
-        //public void AgregarPedido(Pedido pedido)
-        //{
-        //    pedido.IdPedido = GetMaxIdPedido();
-        //    context.Pedidos.Add(pedido);
-        //    context.SaveChanges();
-        //}
-
-        //public void AgregarPedidoProducto(PedidoProducto pedidoProducto)
-        //{
-        //    this.context.PedidosProductos.Add(pedidoProducto);
-        //    this.context.SaveChanges();
-        //}
-
-        public void AgregarPedido(List<Producto> productos, int idCliente, int precioTotal, int cantidad)
+        public void AgregarPedido(List<Producto> productos, int idCliente, int precioTotal, List<int> cantidad)
         {
             int idPedido = GetMaxIdPedido();
 
@@ -178,7 +165,7 @@ namespace ProyectoTiendaVideojuegos.Repositories
             pedidoGeneral.IdPedido = idPedido;
             pedidoGeneral.IdCliente = idCliente;
             pedidoGeneral.PrecioTotal = precioTotal;
-            pedidoGeneral.Cantidad = cantidad;
+            pedidoGeneral.Cantidad = productos.Count;
 
             context.Pedidos.Add(pedidoGeneral);
             context.SaveChanges();
@@ -190,8 +177,8 @@ namespace ProyectoTiendaVideojuegos.Repositories
                 detallePedido.IdDetallesPedido = idDetallesPedido + 1; 
                 detallePedido.IdPedido = idPedido;
                 detallePedido.IdProducto = producto.IdProducto;
-                detallePedido.Cantidad = 1;
-                detallePedido.PrecioTotal = producto.Precio;
+                detallePedido.Cantidad = cantidad.Count(x => x == producto.IdProducto);
+                detallePedido.PrecioTotal = producto.Precio * cantidad.Count(x => x == producto.IdProducto);
 
                 context.DetallesPedido.Add(detallePedido);
                 idDetallesPedido = detallePedido.IdDetallesPedido; 

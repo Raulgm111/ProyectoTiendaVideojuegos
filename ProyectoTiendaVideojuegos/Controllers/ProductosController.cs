@@ -252,24 +252,16 @@ namespace ProyectoTiendaVideojuegos.Controllers
         }
 
         [HttpPost]
-        public IActionResult Pedidos(int idproducto, int cantidad)
+        public IActionResult Pedidos()
         {
             List<int> carrito = HttpContext.Session.GetObject<List<int>>("CARRITO");
-            if (carrito == null)
-            {
-                carrito = new List<int>();
-            }
-
-            for (int i = 0; i < cantidad; i++)
-            {
-                carrito.Add(idproducto);
-            }
             int idCliente = int.Parse(HttpContext.User.FindFirst("IdCliente").Value);
 
             List<Producto> productos = this.repo.BuscarProductoCarrito(carrito);
+
             int precioTotal = productos.Sum(p => p.Precio);
 
-            this.repo.AgregarPedido(productos, idCliente, precioTotal, cantidad);
+            this.repo.AgregarPedido(productos, idCliente, precioTotal,carrito);
 
             HttpContext.Session.Remove("CARRITO");
 
@@ -339,7 +331,7 @@ namespace ProyectoTiendaVideojuegos.Controllers
         [AuthorizeClientes(Policy = "AdminOnly")]
         public IActionResult EliminarProducto(int ididproducto)
         {
-             this.repo.DeleteProductos(ididproducto);
+            this.repo.DeleteProductos(ididproducto);
             return RedirectToAction("GetProductosAdmin");
         }
 
