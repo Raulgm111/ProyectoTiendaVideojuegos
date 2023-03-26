@@ -95,6 +95,11 @@
                         z-index: 1;
                         transition: 0.5s;
                     }
+.containerCartas .max-w-xs {
+    width: 300px;
+    height: 450px;
+}
+
 
 .bn632-hover {
     font-size: 16px;

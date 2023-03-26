@@ -1,4 +1,14 @@
 ﻿@model CategoriasViewModel
+<head>
+    <style>
+        h1.text-gray-900.font-bold.text-3xl.uppercase {
+            height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    </style>
+</head>
 <nav class="category-section header sticky top-0 bg-white shadow-md flex items-center justify-between px-8 py-02" style="z-index: 2;">
     <div class="container flex flex-wrap items-center justify-between mx-auto">
         <a asp-controller="Productos"
@@ -191,12 +201,12 @@
         <div class="containerCartas">
             @foreach (var item in Model.Productos)
             {
-                <div class="max-w-xs bg-white shadow-2xl rounded-lg overflow-hidden my-10">
+                <div class="w-80 bg-white shadow-2xl rounded-lg overflow-hidden my-10">
                     <div class="px-4 py-2">
-                        <h1 class="text-gray-900 font-bold text-3xl uppercase">@item.NombreProducto</h1>
+                        <h1 class="text-gray-900 font-bold text-2rem uppercase">@item.NombreProducto</h1>
                         <p class="text-gray-600 text-sm mt-1">@item.Genero</p>
                     </div>
-                    <img class="h-50 w-full object-cover mt-2" src="@Url.Content(@item.Imagen)">
+                    <img class="object-contain h-80 mt-2" src="@Url.Content(@item.Imagen)">
                     <div class="flex items-center justify-between px-4 py-2 bg-purple-900">
                         <h1 class="text-gray-200 font-bold text-xl">@item.Precio€</h1>
                         <button class="px-3 py-1 font-semibold rounded bn632-hover bn18">
@@ -209,6 +219,8 @@
                     </div>
                 </div>
             }
+
+
         </div>
     </div>
     <script>
