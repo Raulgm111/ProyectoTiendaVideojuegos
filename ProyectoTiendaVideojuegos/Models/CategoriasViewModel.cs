@@ -13,6 +13,8 @@ namespace ProyectoTiendaVideojuegos.Models
         
         public Producto Producto { get; set; }
 
-
+        public List<Producto> ProductosPS4 { get; set; }
+        public List<Producto> ProductosPS5 { get; set; }
+        public List<Producto> Tazas { get; set; }
     }
 }

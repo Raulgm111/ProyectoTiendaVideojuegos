@@ -6,6 +6,8 @@ namespace ProyectoTiendaVideojuegos.Repositories
     public interface IRepositoryProductos
     {
         List<Producto> GetProductosPS4();
+        List<Producto> GetProductosPS5();
+        List<Producto> GetTazas();
         List<Categoria>GetCategorias();
         List<SubCategoria> GetSubCategorias();
         List<Producto> GetPorductosGrid(int id);

@@ -31,6 +31,26 @@ namespace ProyectoTiendaVideojuegos.Repositories
             return productos;
 
         }
+        public List<Producto> GetProductosPS5()
+        {
+            var consulta = from datos in this.context.Productos
+                           where datos.IdSubCategoria == 7
+                           orderby Guid.NewGuid()
+                           select datos;
+            var productos = consulta.Take(4).ToList();
+            return productos;
+
+        }
+        public List<Producto> GetTazas()
+        {
+            var consulta = from datos in this.context.Productos
+                           where datos.IdSubCategoria == 12
+                           orderby Guid.NewGuid()
+                           select datos;
+            var productos = consulta.Take(4).ToList();
+            return productos;
+
+        }
         public List<Categoria> GetCategorias()
         {
             var consulta = from datos in this.context.Categorias

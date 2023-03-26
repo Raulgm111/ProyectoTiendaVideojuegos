@@ -81,7 +81,9 @@ namespace ProyectoTiendaVideojuegos.Controllers
         {
             CategoriasViewModel enlace = new CategoriasViewModel();
             enlace.Categorias = this.repo.GetCategorias();
-            enlace.Productos = this.repo.GetProductosPS4();
+            enlace.ProductosPS4 = this.repo.GetProductosPS4();
+            enlace.ProductosPS5 = this.repo.GetProductosPS5();
+            enlace.Tazas = this.repo.GetTazas();
             enlace.Subcategorias = this.repo.GetSubCategorias();
             return View(enlace);
 

@@ -86,7 +86,7 @@
 </body>
 <h1 class="text-4xl md:text-6xl font-bold text-center text-purple-800"><u>Juegos Play Station 4</u></h1>
 <div class="bodyCartas">
-    @foreach (var item in Model.Productos) {
+    @foreach (var item in Model.ProductosPS4) {
     <!-- Card -->
     <div class="containerCartas">
         <div class="cartas">
@@ -108,19 +108,53 @@
     </div>
     }
 </div>
-<h1 class="text-4xl md:text-6xl font-bold text-center text-purple-800"><u>Productos</u></h1>
+<h1 class="text-4xl md:text-6xl font-bold text-center text-purple-800"><u>Tazas</u></h1>
 <div class="bodyCartas">
-    <!-- Card -->
-    <div class="containerCartas">
-        <div class="cartas">
-            <div class="boxCartas">
-                <div class="contentCartas">
-                    <img src="http://img.pccomponentes.com/articles/1047/10472219/1903-god-of-war-ragnarok-ps4.jpg">
-                    <h3>Card One</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, totam velit? Iure nemo labore inventore?</p>
-                    <button class="px-3 py-1 font-semibold rounded bn632-hover bn18">Comprar</button>
+    @foreach (var item in Model.Tazas)
+    {
+        <!-- Card -->
+        <div class="containerCartas">
+            <div class="cartas">
+                <div class="boxCartas">
+                    <div class="contentCartas">
+                        <img style="width:250px" src="@Url.Content(@item.Imagen)">
+                        <h3 style="font-family:Verdana">@Html.DisplayFor(modelItem => item.NombreProducto)</h3>
+                        <p style="font-family:Arial">@Html.DisplayFor(modelItem => item.Genero)</p>
+                        <button class="px-3 py-1 font-semibold rounded bn632-hover bn18">
+                            <a asp-controller="Productos"
+                           asp-action="VistasDetalles"
+                           asp-route-idproducto="@item.IdProducto">
+                                Comprar
+                            </a>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
+</div>
+<h1 class="text-4xl md:text-6xl font-bold text-center text-purple-800"><u>Juegos Play Station 5</u></h1>
+<div class="bodyCartas">
+    @foreach (var item in Model.ProductosPS5)
+    {
+        <!-- Card -->
+        <div class="containerCartas">
+            <div class="cartas">
+                <div class="boxCartas">
+                    <div class="contentCartas">
+                        <img style="width:250px" src="@Url.Content(@item.Imagen)">
+                        <h3 style="font-family:Verdana">@Html.DisplayFor(modelItem => item.NombreProducto)</h3>
+                        <p style="font-family:Arial">@Html.DisplayFor(modelItem => item.Genero)</p>
+                        <button class="px-3 py-1 font-semibold rounded bn632-hover bn18">
+                            <a asp-controller="Productos"
+                           asp-action="VistasDetalles"
+                           asp-route-idproducto="@item.IdProducto">
+                                Comprar
+                            </a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
