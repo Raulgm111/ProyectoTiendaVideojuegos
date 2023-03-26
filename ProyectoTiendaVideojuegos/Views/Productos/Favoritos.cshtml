@@ -22,9 +22,9 @@
                 {
                     <div class="flex flex-col">
                         <div class="relative">
-                            <img class="hidden lg:block" src="@item.Imagen" alt="bag" />
-                            <img class="hidden sm:block lg:hidden" src="@item.Imagen" alt="bag" />
-                            <img class="sm:hidden" src="@item.Imagen" alt="bag" />
+                            <img class="hidden lg:block" src="@Url.Content(@item.Imagen)" alt="bag" />
+                            <img class="hidden sm:block lg:hidden" src="@Url.Content(@item.Imagen)" alt="bag" />
+                            <img class="sm:hidden" src="@Url.Content(@item.Imagen)" alt="bag" />
                             <button aria-label="close" class="top-4 right-4 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 absolute p-1.5 bg-gray-800 dark:bg-white dark:text-gray-800 text-white hover:text-gray-400">
                                 <a asp-route-ideliminar="@item.IdProducto" asp-controller="Productos" asp-action="Favoritos">
                                     <svg class="fil-current" width="14" height="14" viewBox="0 0 14 14" fill="none">

@@ -92,7 +92,7 @@
         <div class="cartas">
             <div class="boxCartas">
                 <div class="contentCartas">
-                    <img style="width:250px" src="@Html.DisplayFor(modelItem => item.Imagen)">
+                    <img style="width:250px" src="@Url.Content(@item.Imagen)">
                     <h3 style="font-family:Verdana">@Html.DisplayFor(modelItem => item.NombreProducto)</h3>
                         <p style="font-family:Arial">@Html.DisplayFor(modelItem => item.Genero)</p>
                     <button class="px-3 py-1 font-semibold rounded bn632-hover bn18">

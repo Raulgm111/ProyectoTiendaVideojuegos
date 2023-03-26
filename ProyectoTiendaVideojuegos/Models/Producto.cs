@@ -23,7 +23,7 @@ namespace ProyectoTiendaVideojuegos.Models
 
 
         [Column("LANZAMIENTO")]
-        public DateTime Lanzamiento { get; set; }
+        public DateTime? Lanzamiento { get; set; }
 
 
         [Column("IMAGEN")]

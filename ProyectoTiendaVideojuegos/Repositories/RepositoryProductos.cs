@@ -24,7 +24,7 @@ namespace ProyectoTiendaVideojuegos.Repositories
         public List<Producto> GetProductosPS4()
         {
             var consulta = from datos in this.context.Productos
-                           where datos.IdCategoria == 2
+                           where datos.IdSubCategoria == 6
                            orderby Guid.NewGuid()
                            select datos;
             var productos = consulta.Take(4).ToList();
@@ -110,7 +110,7 @@ namespace ProyectoTiendaVideojuegos.Repositories
             return consulta.FirstOrDefault();
         }
 
-        public List<Producto> BuscarProductoCarrito(List<int> idproductoCarrito)
+        public List<Producto> BuscarProductoCarrito(List<int>? idproductoCarrito)
         {
             var consulta = from datos in this.context.Productos
                            where idproductoCarrito.Contains(datos.IdProducto)
