@@ -19,7 +19,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 string connectionString =
-    builder.Configuration.GetConnectionString("SqlTienda");
+    builder.Configuration.GetConnectionString("SqlAzure");
 builder.Services.AddTransient<IRepositoryProductos, RepositoryProductos>();
 builder.Services.AddDbContext<TiendaContext>
     (options => options.UseSqlServer(connectionString));

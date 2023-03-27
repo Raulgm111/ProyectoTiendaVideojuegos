@@ -16,5 +16,7 @@ namespace ProyectoTiendaVideojuegos.Models
         public List<Producto> ProductosPS4 { get; set; }
         public List<Producto> ProductosPS5 { get; set; }
         public List<Producto> Tazas { get; set; }
+
+        public List<string> Generos { get; set; }
     }
 }

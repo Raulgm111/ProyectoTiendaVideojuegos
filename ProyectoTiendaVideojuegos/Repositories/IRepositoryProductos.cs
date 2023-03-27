@@ -14,7 +14,7 @@ namespace ProyectoTiendaVideojuegos.Repositories
         List<Producto> GetTodosProductos();
         List<Producto> GetBuscadorProductos(string buscar);
         List<Producto> FiltrarPorPlataforma(List<string> plataformas);
-        List<Producto> FiltrarPorGenero(List<string> generos);
+        List<string> FiltrarPorGenero();
         List<Producto> FiltrarPorPrecio(int? precioMinimo, int? precioMaximo);
         Producto DetallesProductos(int idproducto);
         List<Producto> BuscarProductoCarrito(List<int>? idproductoCarrito);
@@ -25,5 +25,7 @@ namespace ProyectoTiendaVideojuegos.Repositories
         void UpdatePorducto(Producto producto);
 
         List<DetallesPedido> MostrarPedidos(int idcliente);
+
+        List<Producto> FiltrarPorGeneroProductos(List<string> generos);
     }
 }

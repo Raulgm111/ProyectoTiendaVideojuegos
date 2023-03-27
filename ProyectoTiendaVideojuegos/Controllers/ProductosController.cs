@@ -30,14 +30,14 @@ namespace ProyectoTiendaVideojuegos.Controllers
             CategoriasViewModel enlace = new CategoriasViewModel();
             enlace.Categorias = this.repo.GetCategorias();
             enlace.Subcategorias = this.repo.GetSubCategorias();
-
+            enlace.Generos = this.repo.FiltrarPorGenero();
             if (plataforma != null && plataforma.Any())
             {
                 enlace.Productos = this.repo.FiltrarPorPlataforma(plataforma);
             }
-            else if (generos != null && generos.Any())
+            else if(generos != null && generos.Any())
             {
-                enlace.Productos = this.repo.FiltrarPorGenero(generos);
+                enlace.Productos = this.repo.FiltrarPorGeneroProductos(generos);
             }
             else
             {
@@ -61,13 +61,10 @@ namespace ProyectoTiendaVideojuegos.Controllers
             enlace.Categorias = this.repo.GetCategorias();
             enlace.Subcategorias = this.repo.GetSubCategorias();
             enlace.Productos = this.repo.GetPorductosGrid(id);
+            enlace.Generos = this.repo.FiltrarPorGenero();
             if (plataforma != null && plataforma.Any())
             {
                 enlace.Productos = this.repo.FiltrarPorPlataforma(plataforma);
-            }
-            else if (generos != null && generos.Any())
-            {
-                enlace.Productos = this.repo.FiltrarPorGenero(generos);
             }
 
             if (precioMinimo.HasValue && precioMaximo.HasValue)
