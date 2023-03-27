@@ -23,7 +23,7 @@ namespace ProyectoTiendaVideojuegos.Controllers
         {
             await this.repo.RegisterUsuario(nombre, apellidos,email, password, imagen);
             ViewData["MENSAJE"] = "Usuario registrado correctamente";
-            return View();
+            return RedirectToAction("MisVistas", "Productos");
         }   
 
     }
