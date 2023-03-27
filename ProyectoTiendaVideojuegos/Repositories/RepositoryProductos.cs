@@ -106,18 +106,11 @@ namespace ProyectoTiendaVideojuegos.Repositories
             return consulta.ToList();
         }
 
-        public List<string> FiltrarPorGenero()
+        public List<Producto> FiltrarPorGenero(List<string> generos)
         {
             var consulta = (from productos in context.Productos
-                           select productos.Genero).Distinct();
-            return consulta.ToList();
-        }
-
-        public List<Producto> FiltrarPorGeneroProductos(List<string> generos)
-        {
-            var consulta = (from productos in context.Productos
-                            where generos.Contains(productos.Genero)
-                            select productos).Distinct();
+                           where generos.Contains(productos.Genero)
+                           select productos).Distinct();
             return consulta.ToList();
         }
 
